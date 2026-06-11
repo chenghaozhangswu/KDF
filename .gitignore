@@ -1,0 +1,36 @@
+﻿# Compiled binaries
+*.exe
+*.obj
+*.o
+*.a
+*.lib
+*.so
+*.dll
+*.pdb
+*.ilk
+*.exp
+
+# Build artifacts
+build/
+out/
+
+# Node.js
+node_modules/
+package-lock.json
+
+# Data files - not uploaded
+*.bin
+*.csv
+*.npy
+*.npz
+*.json
+*.h5
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vs/
+.vscode/
+.idea/
