@@ -20,19 +20,28 @@ using namespace std;
 using f32 = float;
 using i32 = int32_t;
 
-constexpr int NW = 601, NQ = 2000, NMAT = 4, KR = 50;
+constexpr int NW = 601, NMAT = 4, KR = 50;
+int NQ;  // derived from data file at runtime
 const char* MN[NMAT] = {"ox","sin","soi","cauthy"};
 
 // --- IO ---
 vector<f32> loadf(const char* p) {
     FILE* f=fopen(p,"rb"); if(!f){fprintf(stderr,"FAIL: %s\n",p);return{};}
     fseek(f,0,SEEK_END); size_t sz=ftell(f); fseek(f,0,SEEK_SET);
-    vector<f32> b(sz/4); fread(b.data(),4,b.size(),f); fclose(f); return b;
+    vector<f32> b(sz/4);
+    if (fread(b.data(),4,b.size(),f) != b.size()){
+        fprintf(stderr,"ERROR: %s incomplete read (%zu bytes)\n",p,sz); fclose(f); return {};
+    }
+    fclose(f); return b;
 }
 vector<i32> loadi(const char* p) {
     FILE* f=fopen(p,"rb"); if(!f){fprintf(stderr,"FAIL: %s\n",p);return{};}
     fseek(f,0,SEEK_END); size_t sz=ftell(f); fseek(f,0,SEEK_SET);
-    vector<i32> b(sz/4); fread(b.data(),4,b.size(),f); fclose(f); return b;
+    vector<i32> b(sz/4);
+    if (fread(b.data(),4,b.size(),f) != b.size()){
+        fprintf(stderr,"ERROR: %s incomplete read (%zu bytes)\n",p,sz); fclose(f); return {};
+    }
+    fclose(f); return b;
 }
 
 inline f32 l2n(const f32* x, int n) {
@@ -204,10 +213,16 @@ int main() {
         printf("  KDT %s built\n", MN[m]);
     }
 
-    // 4. Queries
+    // 4. Queries (derive NQ from data)
     auto Q = loadf("bench_data/queries_n.bin");
     auto QL = loadi("bench_data/queries_label.bin");
     auto QT = loadf("bench_data/queries_thick.bin");
+    NQ = (int)Q.size() / NW;
+    if (NQ==0 || NQ != (int)QL.size() || NQ != (int)QT.size()) {
+        fprintf(stderr,"ERROR: query size mismatch (Q=%zu QL=%zu QT=%zu)\n",
+                Q.size()/4, (size_t)QL.size(), (size_t)QT.size());
+        return 1;
+    }
     printf("\nQueries: %d\n", NQ);
 
     auto tr = chrono::high_resolution_clock::now();
