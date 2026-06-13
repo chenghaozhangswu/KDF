@@ -94,14 +94,24 @@ Sizes: `10k`, `50k`, `100k`, `500k` (spectra per material)
 ## Citation
 
 If you use this code, please cite:
-```
-@article{cfkd2026,
-  title={CF-KD: Coarse-to-Fine KD Retrieval for High-Dimensional Spectral Matching},
-  author={Author et al.},
+
+```bibtex
+@article{zhang2026cfkd,
+  title={CF-KD: Coarse-to-Fine KD Retrieval for High-Dimensional Spectral Matching in Thin-Film Metrology},
+  author={Chenghao Zhang and Yuhui Yang},
   journal={Optics \& Laser Technology},
   year={2026}
 }
 ```
+
+## Authors
+
+**Chenghao Zhang** (zch171041@outlook.com) · **Yuhui Yang** (2641410745@qq.com)
+Department of Information Security, Hubei Polytechnic of Emergency Management, Huanggang, China
+
+## Repository
+
+https://github.com/chenghaozhangswu/KDF
 
 ## License
 
