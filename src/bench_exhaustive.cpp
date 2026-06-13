@@ -108,7 +108,7 @@ int main(){
                 int D=cfg.dim,TOP=cfg.top;
                 t1=chrono::high_resolution_clock::now();f32 cf_p1=0;
                 for(int qi=0;qi<NQT;qi++){
-                    f32 qp[30];pcproj(&qn[qi*N],qp,gm10.data(),cfg.comp,D);
+                    f32 qp[30];pcproj(&qn[qi*N],qp,gm.data(),cfg.comp,D);
                     vector<size_t>ri(TOP);vector<f32>rd(TOP);
                     nanoflann::KNNResultSet<f32>rs(TOP);rs.init(&ri[0],&rd[0]);
                     if(D==10)((KT<10>*)cfg.tree)->findNeighbors(rs,qp,nanoflann::SearchParameters());

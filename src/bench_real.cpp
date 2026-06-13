@@ -192,18 +192,12 @@ int main(){
         int ok=0;double lat=0;
         for(int i=0;i<NREAL;i++){
             auto t0=chrono::high_resolution_clock::now();
-            // ROAD路由
+            // ROAD路由 → 决定材料（级联：ROAD输出材料 = 真实材料才正确）
             F10 f;extract_10f(&real_spec[i*N],f);float qf[10];pack(f,qf);
             for(int j=0;j<10;j++)qf[j]=(qf[j]-rmean[j])/rstd[j];
             int mr=rlab[0];f32 bd=1e30f;
             for(int j=0;j<NROUTE;j++){f32 dd=0;for(int k=0;k<10;k++){f32 ddd=qf[k]-rfeat[j*10+k];dd+=ddd*ddd;}if(dd<bd){bd=dd;mr=rlab[j];}}
-            // 全局PCA-50D KDT看最近邻材料
-            f32 qp50[50];pcproj(&real_spec[i*N],qp50,gm.data(),gc50.data(),50);
-            vector<size_t>ri50(1);vector<f32>rd50(1);
-            nanoflann::KNNResultSet<f32>rs50(1);rs50.init(&ri50[0],&rd50[0]);
-            kt50.findNeighbors(rs50,qp50,nanoflann::SearchParameters());
-            int pm=(int)ri50[0]/NR;
-            if(mr==real_label[i]||pm==real_label[i])ok++;
+            if(mr==real_label[i])ok++;
             lat+=chrono::duration<double,micro>(chrono::high_resolution_clock::now()-t0).count();}
         printf("7.ROAD+PCA50:      %d/27 (%.1f%%) mat_err=%d lat=%.1fus\n",ok,100.0f*ok/27,27-ok,lat/NREAL);
     }
