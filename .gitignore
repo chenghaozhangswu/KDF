@@ -1,36 +1,29 @@
-﻿# Compiled binaries
+﻿# Build artifacts
 *.exe
 *.obj
 *.o
-*.a
-*.lib
-*.so
-*.dll
-*.pdb
-*.ilk
-*.exp
+*.log
+*.aux
+*.out
+*.toc
+*.bbl
+*.blg
 
-# Build artifacts
-build/
-out/
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
 
-# Node.js
-node_modules/
-package-lock.json
-
-# Data files - not uploaded
-*.bin
-*.csv
-*.npy
-*.npz
-*.json
-*.h5
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDEs
+# IDE
 .vs/
 .vscode/
 .idea/
+
+# Large data (not for GitHub)
+src/multi/*.bin
+src/bench_data/
+src/real_csv/
+
+# Paper (private)
+paper/
+report/
